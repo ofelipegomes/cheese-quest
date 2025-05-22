@@ -1,0 +1,1 @@
+IMAGE img_bg "backgrounds\bg1.png" FAST
