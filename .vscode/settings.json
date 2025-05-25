@@ -19,7 +19,11 @@
         "structs.h": "c",
         "maths.h": "c",
         "level.h": "c",
-        "limits": "c"
+        "limits": "c",
+        "gameobject.h": "c",
+        "globals.h": "c"
     },
-    "gens.path": "C:\\Users\\Aluno\\Downloads\\Gens_KMod\\gens"
+    // ...existing code...
+    "gens.path": "C:\\Users\\Felipe\\Downloads\\Gens_KMod\\gens.exe"
+// ...existing code...
 }
