@@ -52,4 +52,5 @@ out/src/gameobject.o: src/gameobject.c src/gameobject.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/string.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/dma.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h src/globals.h
+ C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h src/globals.h \
+ src/utils.h

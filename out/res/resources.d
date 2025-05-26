@@ -1,3 +1,6 @@
 out/res/resources.o: res/resources.res \
-C:/Users/Felipe/Documents/Pasta\ jogos/cheese-quest/res/backgrounds/bg1.png \
+C:/Users/Felipe/Documents/Pasta\ jogos/cheese-quest/res/levels/level1/level1.tmx \
+C:/Users/Felipe/Documents/Pasta\ jogos/cheese-quest/res/levels/level1/level_tiles.png \
+C:/Users/Felipe/Documents/Pasta\ jogos/cheese-quest/res/levels/level1/level.pal \
+C:/Users/Felipe/Documents/Pasta\ jogos/cheese-quest/res/backgrounds/level1_bg.png \
 C:/Users/Felipe/Documents/Pasta\ jogos/cheese-quest/res/sprites/rato-sheet.png

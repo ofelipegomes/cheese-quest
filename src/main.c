@@ -1,45 +1,41 @@
-/**
- * WINDOWS
- * ==================================================================
- * Para compilar & rodar (com extensão Genesis Code):
- * ----------------------------------------------------
- *  OBS: instalar extensao Genesis Code e configurar "Gens Path"
- *
- *  Executar: $ cmd									<< pelo terminal do VSCode (extensão não funciona em PowerShell)
- *  F1 -> Genesis Code Compile Project				<< compilar
- *  F1 -> Genesis Code Compiler & Run Project		<< compilar & executar
- * -----------------------------------------------------
- * 
- * LINUX
- * ==================================================================
- * Considerando que o caminho seja ~/sgdk200, para fazer build:
- * 
- * $ make GDK=~/sgdk200 -f ~/sgdk200/makefile_wine.gen
- */
-
 #include <genesis.h>
 #include <sprite_eng.h>
 
+#include "globals.h"
 #include "resources.h"
 #include "gameobject.h"
 #include "player.h"
+#include "background.h"
+#include "level.h"
+#include "utils.h"
 
-u16 spr_ind = 1;
+u16 ind = TILE_USER_INDEX;
+
+u8 bg_colors_delay = 5;
+const u16 const bg_color_glow[] = {0x0, 0x222, 0x444, 0x666, 0x888};
+
 
 void game_init() {
-	VDP_setScreenWidth320();
-	SPR_init();
+    VDP_setScreenWidth320();
+    SPR_init();
 
-	VDP_drawImageEx(BG_A, &img_bg, TILE_ATTR_FULL(PAL0, 0, 0, 0, 1), 0, 0, true, DMA);
-	spr_ind += PLAYER_init();
+    ind += BACKGROUND_init(ind);
+    ind += LEVEL_init(ind);
 
-	// inits dos inimigos, obstáculos, eventos, etc..
+    PLAYER_init(ind);
 }
 
-void game_update() {
-	PLAYER_update();
+static inline void game_update() {
+	update_input();
+    PLAYER_update();
+	BACKGROUND_update();
+
+	#if MAP_SOLUTION == MAP_BY_COMPACT_MAP
+	LEVEL_update_camera(&player);
+	#endif
+
 	
-	// updates dos inimigos, obstáculos, eventos, etc..
+  
 }
 
 int main(bool resetType) {
@@ -47,17 +43,17 @@ int main(bool resetType) {
 	if (!resetType) {
 		SYS_hardReset();
 	}
+	SYS_showFrameLoad(true);
 	game_init();
-	
+
 	SYS_doVBlankProcess();
 	
+	kprintf("Free RAM after Game Init: %d", MEM_getFree());
+
 	while (true) {
 		game_update();
-		
-		// update hardware sprites table
-		SPR_update();	
-		
-		// wait for VBLANK
+
+		SPR_update();
 		SYS_doVBlankProcess();
 	}
 
