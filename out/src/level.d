@@ -53,4 +53,4 @@ out/src/level.o: src/level.c \
  C:/Users/Felipe/Downloads/sgdk200/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/dma.h src/level.h src/globals.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h src/gameobject.h \
- res/resources.h src/utils.h
+ res/resources.h

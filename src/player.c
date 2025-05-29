@@ -41,14 +41,14 @@ void PLAYER_update() {
 	player.y = player.next_y;
 	
 	// limit do map boundaries
-	LEVEL_check_map_boundaries(&player);
+	//LEVEL_check_map_boundaries(&player);
 	
 	// item check
-	///GAMEOBJECT_update_boundbox(player.x, player.y, &player);
-	///if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_ITEM) {
-	///	HUD_gem_collected(1);
-		//LEVEL_remove_tileXY(player.box.left + player.w/2, player.box.top + player.h/2, 0);
-////	}
+	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
+	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_ITEM) {
+		//HUD_gem_collected(1);
+		LEVEL_remove_tile(player.box.left + player.w/2, player.box.top + player.h/2, IDX_ITEM_DONE);
+	}
 
 	// GAMEOBJECT_wrap_screen(&player);
 	// GAMEOBJECT_clamp_screen(&player);
@@ -66,17 +66,17 @@ static inline bool on_ground() {
     return LEVEL_collision_result() & COLLISION_BOTTOM;
 }
 static inline void PLAYER_get_input_platformer() {
-	if (key_down(JOY_1, BUTTON_RIGHT)) {
-		player.speed_x = PLAYER_SPEED;
-		player.anim = 0;
-	}
-	else 
-	if (key_down(JOY_1, BUTTON_LEFT)) {
-		player.speed_x = -PLAYER_SPEED;
-		player.anim = 2;
-	} else {
-		player.speed_x = 0;
-	}
+    if (key_down(JOY_1, BUTTON_RIGHT)) {
+        player.speed_x = PLAYER_SPEED;
+        player.anim = 1; // Andando para a direita
+    }
+    else if (key_down(JOY_1, BUTTON_LEFT)) {
+        player.speed_x = -PLAYER_SPEED;
+        player.anim = 2; // Andando para a esquerda
+    } else {
+        player.speed_x = 0;
+        player.anim = 0; // Idle
+    }
 
 	// if is on ground
 	if (on_ground()) {
