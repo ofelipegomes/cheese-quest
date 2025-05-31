@@ -11,20 +11,20 @@
 
 u16 ind = TILE_USER_INDEX;
 
-//u8 bg_colors_delay = 5;
-////const u16 const bg_color_glow[] = {0x0, 0x222, 0x444, 0x666, 0x888};
+u8 bg_colors_delay = 5;
+const u16 const bg_color_glow[] = {0x0, 0x222, 0x444, 0x666, 0x888};
 
 
 void game_init() {
     VDP_setScreenWidth320();
     SPR_init();
 
-    //ind += BACKGROUND_init(ind);
+    ind += BACKGROUND_init(ind);
     ind += LEVEL_init(ind);
 
     PLAYER_init(ind);
 
-    LEVEL_draw_collision_map(); // <-- Adicione aqui para visualizar os índices dos tiles
+    //LEVEL_draw_collision_map(); 
 }
 
 static inline void game_update() {

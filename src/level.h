@@ -13,7 +13,7 @@
 #define IDX_ITEM_DONE  80
 #define IDX_WALL_FIRST 0
 #define IDX_WALL_LAST  5
-
+#define IDX_SPIKE 0
 #define OFFSCREEN_TILES 3
 
 #define COLLISION_LEFT   0b0001

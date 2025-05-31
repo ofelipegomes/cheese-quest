@@ -16,8 +16,12 @@ static inline bool on_ground();
 // INIT
 
 u16 PLAYER_init(u16 ind) {
-	ind += GAMEOBJECT_init(&player, &spr_rato, SCREEN_W/2-12, SCREEN_H/2-12, PAL_PLAYER, ind);
-	return ind;
+    ind += GAMEOBJECT_init(&player, &spr_rato, 16, SCREEN_H - player.h - 16, PAL_PLAYER, ind);
+    player.x = FIX16(16);
+    player.y = FIX16(SCREEN_H - player.h - 16);
+    player.next_x = player.x;
+    player.next_y = player.y;
+    return ind;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -49,6 +53,14 @@ void PLAYER_update() {
 		//HUD_gem_collected(1);
 		LEVEL_remove_tile(player.box.left + player.w/2, player.box.top + player.h/2, IDX_ITEM_DONE);
 	}
+
+	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_SPIKE) {
+    
+    ///kprintf("Espinho! Player morreu.");
+    //reiniciar posição
+    player.x = FIX16(16);
+    player.y = FIX16(SCREEN_H - player.h - 16);
+}
 
 	// GAMEOBJECT_wrap_screen(&player);
 	// GAMEOBJECT_clamp_screen(&player);
