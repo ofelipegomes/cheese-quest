@@ -9,6 +9,10 @@
 #include "level.h"
 #include "utils.h"
 
+typedef enum { GAME_STATE_MENU, GAME_STATE_PLAY, GAME_STATE_CONTROLS, GAME_STATE_CREDITS, GAME_STATE_EXIT } GameState;
+GameState gameState = GAME_STATE_MENU;
+
+
 u16 ind = TILE_USER_INDEX;
 
 u8 bg_colors_delay = 5;
@@ -40,24 +44,96 @@ static inline void game_update() {
   
 }
 
+u8 menu_option = 0; // 0 = Play, 1 = Controles, 2 = Credits, 3 = Exit
+
+void draw_menu() {
+    VDP_clearTextArea(0, 0, 40, 28);
+    VDP_drawText("CHEESE QUEST", 12, 6);
+    VDP_drawText(menu_option == 0 ? "> Play"      : "  Play",      15, 10);
+    VDP_drawText(menu_option == 1 ? "> Controles" : "  Controles", 15, 12);
+    VDP_drawText(menu_option == 2 ? "> Credits"   : "  Credits",   15, 14);
+    VDP_drawText(menu_option == 3 ? "> Exit"      : "  Exit",      15, 16);
+}
+
+void update_menu() {
+    u16 value = JOY_readJoypad(JOY_1);
+
+    if (value & BUTTON_DOWN) {
+        if (menu_option < 3) menu_option++;
+        draw_menu();
+        waitMs(150);
+    }
+    if (value & BUTTON_UP) {
+        if (menu_option > 0) menu_option--;
+        draw_menu();
+        waitMs(150);
+    }
+    if (value & BUTTON_A || value & BUTTON_START) {
+        if (menu_option == 0) gameState = GAME_STATE_PLAY;
+        else if (menu_option == 1) gameState = GAME_STATE_CONTROLS;
+        else if (menu_option == 2) gameState = GAME_STATE_CREDITS;
+        else if (menu_option == 3) gameState = GAME_STATE_EXIT;
+		//waitMs(50);
+    }
+}
+
 int main(bool resetType) {
-	// Soft reset doesn't clear RAM. Can lead to bugs.
-	if (!resetType) {
-		SYS_hardReset();
-	}
-	SYS_showFrameLoad(true);
-	game_init();
+    // Soft reset doesn't clear RAM. Can lead to bugs.
+    if (!resetType) {
+        SYS_hardReset();
+    }
+    SYS_showFrameLoad(true);
+    ///game_init();
 
-	SYS_doVBlankProcess();
-	
-	kprintf("Free RAM after Game Init: %d", MEM_getFree());
+    SYS_doVBlankProcess();
 
-	while (true) {
-		game_update();
+    kprintf("Free RAM after Game Init: %d", MEM_getFree());
+    draw_menu(); // Mostra o menu ao iniciar
 
-		SPR_update();
-		SYS_doVBlankProcess();
-	}
+    bool game_started = false; // flag para inicializar o jogo só uma vez
 
-	return 0;
+while (1) {
+    switch (gameState) {
+        case GAME_STATE_MENU:
+            game_started = false;
+            update_menu();
+            break;
+        case GAME_STATE_PLAY:
+            if (!game_started) {
+                game_init();
+                SYS_doVBlankProcess();
+                kprintf("Free RAM after Game Init: %d", MEM_getFree());
+                game_started = true;
+            }
+            game_update();
+            break;
+        case GAME_STATE_CONTROLS:
+            VDP_clearTextArea(0, 0, 40, 28);
+            VDP_drawText("Controles:", 15, 8);
+            VDP_drawText("Setas: mover", 12, 11);
+            VDP_drawText("A: pular/selecionar", 12, 13);
+            VDP_drawText("Start: menu", 12, 15);
+            VDP_drawText("Pressione A para voltar", 8, 20);
+            if (JOY_readJoypad(JOY_1) & BUTTON_A) {
+                gameState = GAME_STATE_MENU;
+                draw_menu();
+            }
+            break;
+        case GAME_STATE_CREDITS:
+            VDP_clearTextArea(0, 0, 40, 28);
+            VDP_drawText("Feito por Felipe", 12, 12);
+            if (JOY_readJoypad(JOY_1) & BUTTON_A) {
+                gameState = GAME_STATE_MENU;
+                draw_menu();
+            }
+            break;
+        case GAME_STATE_EXIT:
+            SYS_hardReset();
+            break;
+    }
+    SPR_update();
+    SYS_doVBlankProcess();
+}
+
+    return 0;
 }
