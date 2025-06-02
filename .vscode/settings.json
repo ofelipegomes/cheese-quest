@@ -21,7 +21,8 @@
         "level.h": "c",
         "limits": "c",
         "gameobject.h": "c",
-        "globals.h": "c"
+        "globals.h": "c",
+        "utils.h": "c"
     },
     // ...existing code...
     "gens.path": "C:\\Users\\Felipe\\Downloads\\Gens_KMod\\gens.exe"

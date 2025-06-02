@@ -1,0 +1,13 @@
+#ifndef GAMESTATE_H
+#define GAMESTATE_H
+
+typedef enum {
+    GAME_STATE_MENU,
+    GAME_STATE_PLAY,
+    GAME_STATE_CONTROLS,
+    GAME_STATE_CREDITS,
+    GAME_STATE_EXIT,
+    GAME_STATE_RETRY
+} GameState;
+
+#endif

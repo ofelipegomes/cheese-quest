@@ -1,4 +1,4 @@
-IMAGE   img_background    "backgrounds/bg1.png" BEST
+IMAGE   img_background    "backgrounds/bg2.png" BEST
 SPRITE  spr_rato          "sprites\rato16-sheet.png" 2 2 FAST
 TILESET level1_tiles      "levels/level1/level_tiles.png" BEST ALL
 PALETTE level1_pal        "levels/level1/level.pal"

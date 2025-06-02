@@ -1,6 +1,6 @@
 #include <genesis.h>
 #include <maths.h>
-
+#include "gamestate.h"
 #include "player.h"
 #include "level.h"
 #include "utils.h"
@@ -8,7 +8,7 @@
 #define PLAYER_SPEED FIX16(2)
 
 GameObject player;
-
+extern GameState gameState;
 
 static inline void PLAYER_get_input_platformer(void);
 static inline bool on_ground();
@@ -53,14 +53,11 @@ void PLAYER_update() {
 		//HUD_gem_collected(1);
 		LEVEL_remove_tile(player.box.left + player.w/2, player.box.top + player.h/2, IDX_ITEM_DONE);
 	}
-
 	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_SPIKE) {
-    
-    ///kprintf("Espinho! Player morreu.");
-    //reiniciar posição
-    player.x = FIX16(16);
-    player.y = FIX16(SCREEN_H - player.h - 16);
-}
+		extern GameState gameState; // Adicione isso no topo do player.c
+		gameState = GAME_STATE_RETRY;
+		return; // Sai da função para não atualizar posição/sprite
+	}
 
 	// GAMEOBJECT_wrap_screen(&player);
 	// GAMEOBJECT_clamp_screen(&player);
