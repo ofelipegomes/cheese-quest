@@ -2,7 +2,7 @@
 #define _PLAYER_H_
 
 #include <genesis.h>
-#include "gameobject.h"
+#include "engine/gameobject.h"
 #include "resources.h"
 
 #define ANIM_VERTICAL    0

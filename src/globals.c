@@ -1,3 +1,3 @@
 #include "globals.h"
 
-char text[5];
+bool precisa_atualizar_colisao = false;

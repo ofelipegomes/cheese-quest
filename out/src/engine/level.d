@@ -1,4 +1,4 @@
-out/src/main.o: src/main.c \
+out/src/engine/level.o: src/engine/level.c \
  C:/Users/Felipe/Downloads/sgdk200/inc/genesis.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/types.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/config.h \
@@ -51,8 +51,6 @@ out/src/main.o: src/main.c \
  C:/Users/Felipe/Downloads/sgdk200/inc/config.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/string.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/maths.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/dma.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h src/globals.h \
- res/resources.h src/engine/gameobject.h src/globals.h src/engine/utils.h \
- src/engine/level.h src/engine/gameobject.h src/engine/background.h \
- src/player.h
+ C:/Users/Felipe/Downloads/sgdk200/inc/dma.h src/engine/level.h \
+ src/globals.h C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h \
+ src/engine/gameobject.h res/resources.h src/engine/utils.h

@@ -52,5 +52,7 @@ out/src/player.o: src/player.c \
  C:/Users/Felipe/Downloads/sgdk200/inc/string.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk200/inc/dma.h src/gamestate.h src/player.h \
- src/gameobject.h C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h \
- src/globals.h res/resources.h src/level.h src/utils.h
+ src/engine/gameobject.h \
+ C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h src/globals.h \
+ res/resources.h src/engine/level.h src/engine/gameobject.h \
+ src/engine/utils.h src/globals.h

@@ -3,15 +3,17 @@
 
 #include "globals.h"
 #include "resources.h"
-#include "gameobject.h"
+#include "engine/gameobject.h"
+#include "engine/utils.h"
+#include "engine/level.h"
+#include "engine/background.h"
+#include "engine/gameobject.h"
 #include "player.h"
-#include "background.h"
-#include "level.h"
-#include "utils.h"
 
-typedef enum { GAME_STATE_MENU, GAME_STATE_PLAY, GAME_STATE_CONTROLS, GAME_STATE_CREDITS, GAME_STATE_EXIT, GAME_STATE_RETRY } GameState;
+typedef enum { GAME_STATE_MENU, GAME_STATE_PLAY, GAME_STATE_CONTROLS, GAME_STATE_CREDITS, GAME_STATE_EXIT, GAME_STATE_LEVEL_CLEAR, GAME_STATE_RETRY } GameState;
 GameState gameState = GAME_STATE_MENU;
 
+extern bool pegou_queijo;
 
 
 u16 ind = TILE_USER_INDEX;
@@ -23,6 +25,7 @@ const u16 const bg_color_glow[] = {0x0, 0x222, 0x444, 0x666, 0x888};
 
 
 void game_init() {
+    pegou_queijo = false;
     VDP_setScreenWidth320();
     SPR_init();
 
@@ -133,28 +136,53 @@ while (1) {
         case GAME_STATE_EXIT:
             SYS_hardReset();
             break;
+        case GAME_STATE_LEVEL_CLEAR:
+            SPR_reset();
 
-    case GAME_STATE_RETRY:
-            SPR_reset(); 
-            
             VDP_clearTextArea(0, 0, 40, 28);
-            VDP_drawText("Voce morreu!", 15, 10);            
-            VDP_drawText("Pressione A para tentar de novo", 8, 11);
-            VDP_drawText("Pressione ENTER para ir ao menu", 4, 12);
 
-        if (JOY_readJoypad(JOY_1) & BUTTON_A) {
-            waitMs(150);
-            game_init();
-            SYS_doVBlankProcess();
-            kprintf("Free RAM after Game Init: %d", MEM_getFree());
-            game_started = true;
-            gameState = GAME_STATE_PLAY;
-        } else if (JOY_readJoypad(JOY_1) & BUTTON_START) {
-            waitMs(150);
-            gameState = GAME_STATE_MENU;
-            draw_menu();
-        }
-        break;
+            VDP_drawText("Fase Completa!", 14, 12);
+            VDP_drawText("Pressione A para proxima fase", 8, 16);
+            VDP_drawText("Start para voltar ao menu", 10, 18);
+
+            if (JOY_readJoypad(JOY_1) & BUTTON_A) {
+                waitMs(150);
+                game_init();
+                SYS_doVBlankProcess();
+                kprintf("Free RAM after Game Init: %d", MEM_getFree());
+                game_started = true;
+                gameState = GAME_STATE_PLAY;
+                } else if (JOY_readJoypad(JOY_1) & BUTTON_START) {
+                    waitMs(150);
+                    gameState = GAME_STATE_MENU;
+                    draw_menu();
+                }
+            break;
+
+        case GAME_STATE_RETRY:
+                SPR_reset(); 
+                SYS_doVBlankProcess();
+                game_started = false;
+                VDP_clearTextArea(0, 0, 40, 28);
+                VDP_drawText("Voce morreu!", 15, 10);            
+                VDP_drawText("Pressione A para tentar de novo", 8, 11);
+                VDP_drawText("Pressione ENTER para ir ao menu", 4, 12);
+
+                if (JOY_readJoypad(JOY_1) & BUTTON_A) {
+                    waitMs(150);
+                    game_init();
+                    SYS_doVBlankProcess();
+                    kprintf("Free RAM after Game Init: %d", MEM_getFree());
+                    game_started = true;
+                    gameState = GAME_STATE_PLAY;
+                } else if (JOY_readJoypad(JOY_1) & BUTTON_START) {
+                    waitMs(150);
+                    gameState = GAME_STATE_MENU;
+                    draw_menu();
+                }
+                break;
+        
+
     }
     SPR_update();
     SYS_doVBlankProcess();

@@ -2,8 +2,10 @@
 #include <maths.h>
 #include "gamestate.h"
 #include "player.h"
-#include "level.h"
-#include "utils.h"
+#include "engine/level.h"
+#include "engine/utils.h"
+#include "engine/gameobject.h"
+#include "globals.h"
 
 #define PLAYER_SPEED FIX16(2)
 
@@ -12,11 +14,12 @@ extern GameState gameState;
 
 static inline void PLAYER_get_input_platformer(void);
 static inline bool on_ground();
+bool pegou_queijo = false;
 ////////////////////////////////////////////////////////////////////////////
 // INIT
 
 u16 PLAYER_init(u16 ind) {
-    ind += GAMEOBJECT_init(&player, &spr_rato, 16, SCREEN_H - player.h - 16, PAL_PLAYER, ind);
+    ind += GAMEOBJECT_init(&player, &spr_rato, 16, SCREEN_H - player.h - 16, 0, 0, PAL_PLAYER, ind);
     player.x = FIX16(16);
     player.y = FIX16(SCREEN_H - player.h - 16);
     player.next_x = player.x;
@@ -48,16 +51,26 @@ void PLAYER_update() {
 	//LEVEL_check_map_boundaries(&player);
 	
 	// item check
-	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
-	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_ITEM) {
-		//HUD_gem_collected(1);
-		LEVEL_remove_tile(player.box.left + player.w/2, player.box.top + player.h/2, IDX_ITEM_DONE);
-	}
-	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_SPIKE) {
-		extern GameState gameState; // Adicione isso no topo do player.c
-		gameState = GAME_STATE_RETRY;
-		return; // Sai da função para não atualizar posição/sprite
-	}
+GAMEOBJECT_update_boundbox(player.x, player.y, &player);
+u16 tile = LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2);
+
+if (tile == IDX_CHEESE) {
+    //HUD_gem_collected(1);
+    LEVEL_remove_tileXY(player.box.left + player.w/2, player.box.top + player.h/2, IDX_EMPTY);
+    pegou_queijo = true;
+    LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST); // <-- Adicione esta linha
+}
+
+if (tile == IDX_SPIKE) {
+    gameState = GAME_STATE_LEVEL_CLEAR;
+    return;
+}
+
+if (tile == IDX_TOCA_DO_RATO && pegou_queijo) {
+    gameState = GAME_STATE_RETRY;
+    return;
+}
+	
 
 	// GAMEOBJECT_wrap_screen(&player);
 	// GAMEOBJECT_clamp_screen(&player);

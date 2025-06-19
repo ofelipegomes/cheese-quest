@@ -23,14 +23,16 @@ typedef struct {
 	u8 w;
 	u8 h;
 	BoundBox box;
+	s8 w_offset;
+	s8 h_offset;
 	u8 anim;
-	bool on_ground;
+	u8 health;
 } GameObject;
 
 ////////////////////////////////////////////////////////////////////////////
 // INITIALIZATION
 
-u16 GAMEOBJECT_init(GameObject* const obj, const SpriteDefinition* const sprite, s16 x, s16 y, u8 pal, u16 ind);
+u16 GAMEOBJECT_init(GameObject* const obj, const SpriteDefinition* const sprite, s16 x, s16 y, s8 w_offset, s8 h_offset, u8 pal, u16 ind);
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOOP/LOGIC
