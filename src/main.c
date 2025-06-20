@@ -14,8 +14,8 @@ typedef enum { GAME_STATE_MENU, GAME_STATE_PLAY, GAME_STATE_CONTROLS, GAME_STATE
 GameState gameState = GAME_STATE_MENU;
 
 extern bool pegou_queijo;
-
-
+u8 current_room = 0;
+u8 level = 1;
 u16 ind = TILE_USER_INDEX;
 
 u8 bg_colors_delay = 5;
@@ -30,7 +30,7 @@ void game_init() {
     SPR_init();
 
     ind += BACKGROUND_init(ind);
-    ind += LEVEL_init(ind);
+    ind += LEVEL_init(ind, level);
 
     PLAYER_init(ind);
 
@@ -136,27 +136,41 @@ while (1) {
         case GAME_STATE_EXIT:
             SYS_hardReset();
             break;
+
         case GAME_STATE_LEVEL_CLEAR:
             SPR_reset();
-
             VDP_clearTextArea(0, 0, 40, 28);
-
             VDP_drawText("Fase Completa!", 14, 12);
-            VDP_drawText("Pressione A para proxima fase", 8, 16);
-            VDP_drawText("Start para voltar ao menu", 10, 18);
 
-            if (JOY_readJoypad(JOY_1) & BUTTON_A) {
+            VDP_drawText("A: Jogar novamente", 10, 16);
+            VDP_drawText("B: Proxima Fase", 10, 17);
+            VDP_drawText("Start: Menu", 14, 19);
+
+            u16 value = JOY_readJoypad(JOY_1);
+
+            if (value & BUTTON_A) {
                 waitMs(150);
-                game_init();
+                game_init(); // Reinicia a fase atual
                 SYS_doVBlankProcess();
                 kprintf("Free RAM after Game Init: %d", MEM_getFree());
-                game_started = true;
                 gameState = GAME_STATE_PLAY;
-                } else if (JOY_readJoypad(JOY_1) & BUTTON_START) {
-                    waitMs(150);
-                    gameState = GAME_STATE_MENU;
-                    draw_menu();
-                }
+                game_started = true;
+            }
+            else if (value & BUTTON_B) {
+                waitMs(150);
+                level = 2;      // Troca para a fase 2
+                game_init();    // Carrega a fase 2
+                SYS_doVBlankProcess();
+                kprintf("Free RAM after Game Init: %d", MEM_getFree());
+                gameState = GAME_STATE_PLAY;
+                game_started = true;
+            }
+            else if (value & BUTTON_START) {
+                waitMs(150);
+                level = 1;
+                gameState = GAME_STATE_MENU;
+                draw_menu();
+            }
             break;
 
         case GAME_STATE_RETRY:

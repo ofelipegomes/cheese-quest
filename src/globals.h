@@ -18,6 +18,7 @@
 #define MAP_METATILES_W 60      // width of map in 16x16 tiles
 #define MAP_METATILES_H 42      // height og map in 16x16 tiles
 extern bool precisa_atualizar_colisao;
+extern u8 current_level;
 #define HUD_TILES 1             // hud height in tiles
 
 // To check what are the tile indexes in your map, just
@@ -28,11 +29,11 @@ extern bool precisa_atualizar_colisao;
 
 #define IDX_EMPTY 	   10       
 #define IDX_WALL_FIRST 0
-#define IDX_WALL_LAST  5
+#define IDX_WALL_LAST  3
 #define IDX_ITEM  	   8
-#define IDX_CHEESE 	   12
-#define IDX_TOCA_DO_RATO 14
-#define IDX_SPIKE           0
+#define IDX_CHEESE 	   11
+#define IDX_TOCA_DO_RATO 13
+#define IDX_SPIKE           4
 // GENERAL VDP CONFIG ///////////////////////////////////
 
 #define PAL_PLAYER 		PAL0

@@ -29,27 +29,30 @@ void LEVEL_generate_screen_collision_map(u8 empty, u8 first_wall, u8 last_wall);
 static void LEVEL_register_tiles_in_room(u8 room);
 static void LEVEL_restore_tiles_in_room(u8 room);
 
-static void LEVEL_scroll_map(s16 x, s16 y);
+void LEVEL_scroll_map(s16 x, s16 y);
 static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y);
 
 ////////////////////////////////////////////////////////////////////////////
 // INIT
 
-u16 LEVEL_init(u16 ind) {
-	PAL_setPalette(PAL_MAP, level1_pal.data, DMA);
-	VDP_loadTileSet(&level1_tiles, ind, DMA);
-	map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
-	
-	LEVEL_scroll_map(0, 0);
-	LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST);
-	
-	ind += level1_tiles.numTile;
 
-	// start tiles BIT MAP with 1's
-	memsetU32((u32*)items_table, 0xFFFFFFFF, NUMBER_OF_ROOMS * NUMBER_OF_32BIT_BITMAPS);
+u16 LEVEL_init(u16 ind, u8 level) {
+    PAL_setPalette(PAL_MAP, level1_pal.data, DMA);
+    VDP_loadTileSet(&level1_tiles, ind, DMA);
 
-	return ind;
+    if (level == 1) {
+        map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+    } else if (level == 2) {
+        map = MAP_create(&level1_map2, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+    }
+    ind += level1_tiles.numTile;
+
+    LEVEL_scroll_map(0, 0);
+    LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST);
+    memsetU32((u32*)items_table, 0xFFFFFFFF, NUMBER_OF_ROOMS * NUMBER_OF_32BIT_BITMAPS);
+    return ind;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////
 // LOGIC & UPDATE
@@ -395,7 +398,7 @@ static void LEVEL_restore_tiles_in_room(u8 room) {
 	#endif
 }
 
-static void LEVEL_scroll_map(s16 x, s16 y) {
+void LEVEL_scroll_map(s16 x, s16 y) {
 	MAP_getTilemapRect(map, x/16, y/16, SCREEN_TILES_W/2, SCREEN_TILES_H/2, FALSE, tilemap_buff);
 	
 	// LEVEL_print_tilemap_buff();
