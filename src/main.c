@@ -158,8 +158,10 @@ while (1) {
             }
             else if (value & BUTTON_B) {
                 waitMs(150);
-                level = 2;      // Troca para a fase 2
-                game_init();    // Carrega a fase 2
+                level++;
+                if (level > 3) level = 1; // volta para o primeiro se passar do último
+                kprintf("Indo para o level: %d", level);
+                game_init();
                 SYS_doVBlankProcess();
                 kprintf("Free RAM after Game Init: %d", MEM_getFree());
                 gameState = GAME_STATE_PLAY;

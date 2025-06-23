@@ -40,11 +40,14 @@ u16 LEVEL_init(u16 ind, u8 level) {
     PAL_setPalette(PAL_MAP, level1_pal.data, DMA);
     VDP_loadTileSet(&level1_tiles, ind, DMA);
 
-    if (level == 1) {
-        map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
-    } else if (level == 2) {
-        map = MAP_create(&level1_map2, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
-    }
+	if (level == 1) {
+		map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+	} else if (level == 2) {
+		map = MAP_create(&level1_map2, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+	} else if (level == 3) {
+		map = MAP_create(&level1_map3, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+	}
+
     ind += level1_tiles.numTile;
 
     LEVEL_scroll_map(0, 0);

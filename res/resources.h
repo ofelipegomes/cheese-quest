@@ -7,5 +7,6 @@ extern const TileSet level1_tiles;
 extern const Palette level1_pal;
 extern const MapDefinition level1_map;
 extern const MapDefinition level1_map2;
+extern const MapDefinition level1_map3;
 
 #endif // _RES_RESOURCES_H_
