@@ -1,5 +1,5 @@
-out/src/engine/gameobject.o: src/engine/gameobject.c \
- src/engine/gameobject.h C:/Users/Felipe/Downloads/sgdk211/inc/genesis.h \
+out/src/engine/mapobjects.o: src/engine/mapobjects.c \
+ src/engine/mapobjects.h C:/Users/Felipe/Downloads/sgdk211/inc/genesis.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/types.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/config.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/asm.h \
@@ -51,6 +51,6 @@ out/src/engine/gameobject.o: src/engine/gameobject.c \
  C:/Users/Felipe/Downloads/sgdk211/inc/config.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/string.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/maths.h \
- C:/Users/Felipe/Downloads/sgdk211/inc/dma.h \
+ C:/Users/Felipe/Downloads/sgdk211/inc/dma.h src/engine/gameobject.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h src/globals.h \
  src/engine/utils.h

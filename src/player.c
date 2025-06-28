@@ -79,9 +79,9 @@ if (tile == IDX_TOCA_DO_RATO && pegou_queijo) {
 	// GAMEOBJECT_clamp_screen(&player);
 	
 	// update VDP/SGDK
-	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
-	SPR_setPosition(player.sprite, fix16ToInt(player.x), fix16ToInt(player.y));
-	SPR_setAnim(player.sprite, player.anim);
+    GAMEOBJECT_update_boundbox(player.x, player.y, &player);
+    SPR_setPosition(player.sprite, F16_toInt(player.x), F16_toInt(player.y));
+    SPR_setAnim(player.sprite, player.anim);
 }
 
 ////////////////////////////////////////////////////////////////////////////
