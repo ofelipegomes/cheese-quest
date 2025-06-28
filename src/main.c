@@ -53,8 +53,8 @@ static inline void game_update() {
 u8 menu_option = 0; // 0 = Play, 1 = Controles, 2 = Credits, 3 = Exit
 
 void draw_menu() {
+    VDP_drawImage(BG_B, &img_mainmenu, 0, 0);
     VDP_clearTextArea(0, 0, 40, 28);
-    VDP_drawText("CHEESE QUEST", 12, 6);
     VDP_drawText(menu_option == 0 ? "> Play"      : "  Play",      15, 10);
     VDP_drawText(menu_option == 1 ? "> Controles" : "  Controles", 15, 12);
     VDP_drawText(menu_option == 2 ? "> Credits"   : "  Credits",   15, 14);
@@ -139,12 +139,13 @@ while (1) {
 
         case GAME_STATE_LEVEL_CLEAR:
             SPR_reset();
+            VDP_drawImage(BG_B, &img_level_clear, 0, 0); 
             VDP_clearTextArea(0, 0, 40, 28);
-            VDP_drawText("Fase Completa!", 14, 12);
+            VDP_drawText("Fase Completa!", 14, 20);
 
-            VDP_drawText("A: Jogar novamente", 10, 16);
-            VDP_drawText("B: Proxima Fase", 10, 17);
-            VDP_drawText("Start: Menu", 14, 19);
+            VDP_drawText("A: Jogar novamente", 10, 22);
+            VDP_drawText("B: Proxima Fase", 10, 23);
+            VDP_drawText("Start: Menu", 14, 25);
 
             u16 value = JOY_readJoypad(JOY_1);
 
@@ -179,10 +180,12 @@ while (1) {
                 SPR_reset(); 
                 SYS_doVBlankProcess();
                 game_started = false;
+                VDP_drawImage(BG_B, &img_retry, 0, 0);
                 VDP_clearTextArea(0, 0, 40, 28);
-                VDP_drawText("Voce morreu!", 15, 10);            
-                VDP_drawText("Pressione A para tentar de novo", 8, 11);
-                VDP_drawText("Pressione ENTER para ir ao menu", 4, 12);
+                VDP_drawText("Voce morreu!", 15, 20);            
+                VDP_drawText("Pressione A para tentar de novo", 8, 22);
+                VDP_drawText("Pressione ENTER para ir ao menu", 4, 24);
+
 
                 if (JOY_readJoypad(JOY_1) & BUTTON_A) {
                     waitMs(150);
