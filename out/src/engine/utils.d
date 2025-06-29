@@ -1,4 +1,4 @@
-out/src/engine/utils.o: src/engine/utils.c src/engine/gameobject.h \
+out/src/engine/utils.o: src/engine/utils.c src/engine/utils.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/genesis.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/types.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/config.h \
@@ -53,4 +53,4 @@ out/src/engine/utils.o: src/engine/utils.c src/engine/gameobject.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/dma.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h src/globals.h \
- src/engine/utils.h
+ res/resources.h

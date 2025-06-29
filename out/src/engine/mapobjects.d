@@ -53,4 +53,4 @@ out/src/engine/mapobjects.o: src/engine/mapobjects.c \
  C:/Users/Felipe/Downloads/sgdk211/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/dma.h src/engine/gameobject.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h src/globals.h \
- src/engine/utils.h
+ res/resources.h src/engine/utils.h

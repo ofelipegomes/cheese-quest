@@ -1,30 +1,23 @@
 {
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "C_Cpp.default.includePath": [
-        "\\inc",
-        "\\res",
-        "res",
-        "inc"
-    ],
-    "files.associations": {
-        "genesis.h": "c",
-        "tab_cnv.h": "c",
-        "font.h": "c",
-        "types.h": "c",
-        "resources.h": "c",
-        "sprite_eng.h": "c",
-        "vdp_spr.h": "c",
-        "vdp_tile.h": "c",
-        "player.h": "c",
-        "structs.h": "c",
-        "maths.h": "c",
-        "level.h": "c",
-        "limits": "c",
-        "gameobject.h": "c",
-        "globals.h": "c",
-        "utils.h": "c"
+    "files.exclude": {
+        ".github": true,
+        "**/*.o": true,
+        "**/*.d": true,
+        "**/*.exe": true,
+        "**/*.dll": true,
+        "**/*.jar": true,
+        "**/*.bin": true,
+        "**/*.out": true,
+        "**/cmd_": true,
+        "**/out.lst": true,
     },
-    // ...existing code...
-    "gens.path": "C:\\Users\\Felipe\\Downloads\\Gens_KMod\\gens.exe"
-// ...existing code...
+    "files.associations": {
+        "resources.h": "c",
+        "enemy.h": "c",
+        "level.h": "c",
+        "gameobject.h": "c",
+        "sprite_eng.h": "c",
+        "objects_pool.h": "c"
+    },
 }

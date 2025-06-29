@@ -1,56 +1,23 @@
-out/src/utils.o: src/utils.c src/gameobject.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/genesis.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/types.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/config.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/asm.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sys.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sram.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/mapper.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/memory.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/memory_base.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/tools.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/bmp.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/maths.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/vdp.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/pal.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/dma.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/vdp_tile.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/vdp_bg.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/map.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/pool.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/object.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/font.h \
- C:/Users/Felipe/Downloads/sgdk200/res/libres.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/string.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/tab_cnv.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/maths3D.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/vdp_spr.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/vdp_pal.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/vram.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng_legacy.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/z80_ctrl.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/ym2612.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/psg.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/sound.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/xgm.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/xgm2.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/smp_null.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/smp_null_dpcm.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/pcm/snd_pcm.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/pcm/snd_dpcm2.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/snd/pcm/snd_pcm4.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/joy.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/timer.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/task.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/task_cst.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/ext/flash-save/flash.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/types.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/ext/flash-save/saveman.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/ext/console.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/config.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/string.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/maths.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/dma.h \
- C:/Users/Felipe/Downloads/sgdk200/inc/sprite_eng.h src/globals.h \
- src/utils.h
+out/src/utils.o: src/utils.c src/utils.h c:/sgdk211/inc/genesis.h \
+ c:/sgdk211/inc/types.h c:/sgdk211/inc/config.h c:/sgdk211/inc/asm.h \
+ c:/sgdk211/inc/sys.h c:/sgdk211/inc/sram.h c:/sgdk211/inc/mapper.h \
+ c:/sgdk211/inc/memory.h c:/sgdk211/inc/memory_base.h \
+ c:/sgdk211/inc/tools.h c:/sgdk211/inc/bmp.h c:/sgdk211/inc/maths.h \
+ c:/sgdk211/inc/vdp.h c:/sgdk211/inc/pal.h c:/sgdk211/inc/dma.h \
+ c:/sgdk211/inc/vdp_tile.h c:/sgdk211/inc/vdp_bg.h c:/sgdk211/inc/map.h \
+ c:/sgdk211/inc/pool.h c:/sgdk211/inc/object.h c:/sgdk211/inc/font.h \
+ c:/sgdk211/res/libres.h c:/sgdk211/inc/string.h c:/sgdk211/inc/tab_cnv.h \
+ c:/sgdk211/inc/maths3D.h c:/sgdk211/inc/vdp_spr.h \
+ c:/sgdk211/inc/vdp_pal.h c:/sgdk211/inc/vram.h \
+ c:/sgdk211/inc/sprite_eng.h c:/sgdk211/inc/sprite_eng_legacy.h \
+ c:/sgdk211/inc/z80_ctrl.h c:/sgdk211/inc/ym2612.h c:/sgdk211/inc/psg.h \
+ c:/sgdk211/inc/snd/sound.h c:/sgdk211/inc/snd/xgm.h \
+ c:/sgdk211/inc/snd/xgm2.h c:/sgdk211/inc/snd/smp_null.h \
+ c:/sgdk211/inc/snd/smp_null_dpcm.h c:/sgdk211/inc/snd/pcm/snd_pcm.h \
+ c:/sgdk211/inc/snd/pcm/snd_dpcm2.h c:/sgdk211/inc/snd/pcm/snd_pcm4.h \
+ c:/sgdk211/inc/joy.h c:/sgdk211/inc/timer.h c:/sgdk211/inc/task.h \
+ c:/sgdk211/inc/task_cst.h c:/sgdk211/inc/ext/flash-save/flash.h \
+ c:/sgdk211/inc/types.h c:/sgdk211/inc/ext/flash-save/saveman.h \
+ c:/sgdk211/inc/ext/console.h c:/sgdk211/inc/config.h \
+ c:/sgdk211/inc/string.h c:/sgdk211/inc/maths.h c:/sgdk211/inc/dma.h \
+ c:/sgdk211/inc/sprite_eng.h src/globals.h res/resources.h

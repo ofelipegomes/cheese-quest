@@ -53,6 +53,8 @@ out/src/main.o: src/main.c \
  C:/Users/Felipe/Downloads/sgdk211/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/dma.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h src/globals.h \
- res/resources.h src/engine/gameobject.h src/globals.h src/engine/utils.h \
- src/engine/level.h src/engine/gameobject.h src/engine/background.h \
- src/player.h
+ res/resources.h src/hud.h src/engine/gameobject.h src/globals.h \
+ src/engine/background.h src/engine/utils.h src/engine/level.h \
+ src/engine/gameobject.h src/engine/utils.h src/entities/player.h \
+ src/engine/gameobject.h src/entities/enemy.h src/engine/mapobjects.h \
+ src/engine/objects_pool.h

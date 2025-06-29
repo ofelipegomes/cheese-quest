@@ -1,11 +1,14 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "sgdk",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/res",
                 "${GDK}/inc",
-                "${GDK}/res"
+                "${GDK}/res",
+                "~/sgdk211/inc",
+                "~/sgdk211/res"
             ]
         }
     ],

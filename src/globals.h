@@ -3,8 +3,10 @@
 
 #include <genesis.h>
 #include <sprite_eng.h>
+#include "resources.h"
 
-// #define DEBUG
+// #define DEBUG_LEVEL
+// #define DEBUG_OBJ
 
 /*** YOU MUST MODIFY *************************************************
     
@@ -15,10 +17,9 @@
 
 // MAP CONFIG ///////////////////////////////////////////
 
-#define MAP_METATILES_W 60      // width of map in 16x16 tiles
-#define MAP_METATILES_H 42      // height og map in 16x16 tiles
-extern bool precisa_atualizar_colisao;
-extern u8 current_level;
+#define MAP_METATILES_W 60      // max width of any map in 16x16 tiles
+#define MAP_METATILES_H 42      // max height of any map in 16x16 tiles
+
 #define HUD_TILES 1             // hud height in tiles
 
 // To check what are the tile indexes in your map, just
@@ -34,6 +35,11 @@ extern u8 current_level;
 #define IDX_CHEESE 	   11
 #define IDX_TOCA_DO_RATO 13
 #define IDX_SPIKE           4
+
+#define NUMBER_OF_LEVELS 5
+
+#define OFFSCREEN_TILES 3
+
 // GENERAL VDP CONFIG ///////////////////////////////////
 
 #define PAL_PLAYER 		PAL0
@@ -48,6 +54,9 @@ extern u8 current_level;
 
 // GENERAL PLAYER CONFIG ////////////////////////////////
 
+// GENERAL PLAYER CONFIG ////////////////////////////////
+
+#define PLAYER_ACCEL   FIX16(0.1)
 #define PLAYER_SPEED   FIX16(2)
 #define PLAYER_SPEED45 FIX16(0.707 * 2)
 
@@ -69,7 +78,10 @@ extern u8 current_level;
 #define MAP_W MAP_METATILES_W * METATILE_W
 #define MAP_H MAP_METATILES_H * METATILE_W
 
-// maximum number of screens (rooms) in a map
+// maximum number of screens (rooms) in any map
+#define MAX_NUMBER_OF_ROOMS 32
+
+// number of rooms in current map (should be replaced by a table/var)
 #define NUMBER_OF_ROOMS MAP_W/SCREEN_W * MAP_H/SCREEN_H
 #define ROOMS_PER_ROW   MAP_H/SCREEN_H
 

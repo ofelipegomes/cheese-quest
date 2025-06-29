@@ -2,13 +2,10 @@
 #define _LEVEL_H_
 
 #include <genesis.h>
-#include "globals.h"
 #include "gameobject.h"
+#include "globals.h"
 #include "resources.h"
-
-#define NUMBER_OF_LEVELS 5
-
-#define OFFSCREEN_TILES 3
+#include "utils.h"
 
 #define COLLISION_LEFT   0b0001
 #define COLLISION_RIGHT  0b0010
@@ -23,12 +20,14 @@ extern u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES*2][SCREEN_METATILES
 extern u16 tilemap_buff[SCREEN_TILES_W * SCREEN_TILES_H];
 
 extern u8 collision_result;
-extern char text[10];
+extern char text[5];
 
 ////////////////////////////////////////////////////////////////////////////
 // INITIALIZATION
 
 u16 LEVEL_init(u16 ind, u8 level);
+
+void LEVEL_generate_screen_collision_map(u8 empty, u8 first_wall, u8 last_wall);
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOOP/LOGIC
@@ -79,53 +78,23 @@ u8 LEVEL_check_wall(GameObject* obj);
 void LEVEL_move_and_slide(GameObject* obj);
 
 void LEVEL_remove_tileXY(s16 x, s16 y, u8 new_tile);
-void LEVEL_update_camera(GameObject* obj);
+u8 LEVEL_update_camera(GameObject* obj);
 void LEVEL_check_map_boundaries(GameObject* obj);
 
+u8 LEVEL_current_room();
 
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX
 
-inline void LEVEL_draw_collision_map() {
-    VDP_setTextPlane(BG_B);
+void LEVEL_print_tilemap_buff();
 
-	for (u8 tile_x = 0; tile_x < SCREEN_METATILES_W; ++tile_x) {
-		for (u8 tile_y = 0; tile_y < SCREEN_METATILES_H; ++tile_y) {
-				
-				s16 index = LEVEL_tileIDX16(tile_x, tile_y);
-				if (index != 0) {
-					intToStr(index, text, 1);
-					VDP_drawText(text, tile_x * METATILE_W/8, tile_y * METATILE_W/8);
-				} else {
-					VDP_drawText("  ", tile_x * METATILE_W/8, tile_y * METATILE_W/8);
-				}
-		}
-	}
-}
-
-inline void LEVEL_draw_tile_map() {
-    VDP_setTextPlane(BG_B);
-
-	for (u8 tile_x = 0; tile_x < SCREEN_TILES_W; tile_x += 2) {
-		for (u8 tile_y = 0; tile_y < SCREEN_TILES_H; tile_y += 2) {
-
-			s16 index = LEVEL_mapbuffIDX8(tile_x, tile_y);
-				if (index != 10) {
-					intToStr(index, text, 1);
-					VDP_drawText(text, tile_x, tile_y);
-				} else {
-					VDP_drawText("  ", tile_x, tile_y);
-				}
-		}
-	}
-}
+void LEVEL_draw_collision_map();
+void LEVEL_draw_tile_map();
 
 // DEBUG: change for the map you want to draw
 inline void LEVEL_draw_map() {
 	LEVEL_draw_collision_map();
 	// LEVEL_draw_tile_map();
 }
-
-void LEVEL_print_tilemap_buff();
 
 #endif // _LEVEL_H_

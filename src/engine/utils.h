@@ -15,6 +15,8 @@ extern char line[MAX_TEXT_LINE];
 ////////////////////////////////////////////////////////////////////////////
 // LOGIC
 
+#define LEN(VEC) sizeof(VEC)/sizeof(VEC[0])
+
 // #define wrap(X, L, H) ((X < L)? H : ((X > H)? : L: X))
 
 #define WRAP(X, L, H) \
@@ -130,6 +132,10 @@ inline bool key_pressed(u8 joy_id, u8 key) {
 
 inline bool key_released(u8 joy_id, u8 key) {
     return !is_bitset(buttons[joy_id], key) && is_bitset(buttons_old[joy_id], key);
+}
+
+inline bool key_any(u8 joy_id) {
+	return buttons[joy_id];
 }
 
 #endif // _STRUCTS_H_

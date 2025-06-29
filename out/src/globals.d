@@ -52,4 +52,4 @@ out/src/globals.o: src/globals.c src/globals.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/string.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/dma.h \
- C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h
+ C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h res/resources.h

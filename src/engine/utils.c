@@ -1,4 +1,3 @@
-#include "gameobject.h"
 #include "utils.h"
 
 u8 buttons[NUMBER_OF_JOYPADS];

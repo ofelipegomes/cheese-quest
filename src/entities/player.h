@@ -21,5 +21,6 @@ u16 PLAYER_init(u16 ind);
 // GAME LOOP/LOGIC
 
 void PLAYER_update();
+void PLAYER_on_hit(u8 amount);
 
 #endif // _PLAYER_H_

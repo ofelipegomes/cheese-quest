@@ -52,5 +52,6 @@ out/src/engine/level.o: src/engine/level.c \
  C:/Users/Felipe/Downloads/sgdk211/inc/string.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/maths.h \
  C:/Users/Felipe/Downloads/sgdk211/inc/dma.h src/engine/level.h \
- src/globals.h C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h \
- src/engine/gameobject.h res/resources.h src/engine/utils.h
+ src/engine/gameobject.h \
+ C:/Users/Felipe/Downloads/sgdk211/inc/sprite_eng.h src/globals.h \
+ res/resources.h src/engine/utils.h
