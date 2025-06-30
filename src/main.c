@@ -241,13 +241,14 @@ int main(bool resetType) {
                 break;
             case GAME_STATE_CONTROLS:
                 VDP_clearTextArea(0, 0, 40, 28);
-                VDP_drawText("Controles:", 15, 8);
-                VDP_drawText("Setas: mover", 12, 11);
-                VDP_drawText("A: pular/selecionar", 12, 13);
-                VDP_drawText("Start: menu", 12, 15);
-                VDP_drawText("Pressione A para voltar", 8, 20);
+                VDP_drawText("Controles:", 15, 10);
+                VDP_drawText("Setas: mover", 12, 13);
+                VDP_drawText("A: pular/selecionar", 12, 15);
+                VDP_drawText("B (S): acao especial", 12, 17);
+                VDP_drawText("Start: menu", 12, 19);
+                VDP_drawText("Pressione A para voltar", 8, 23);
                 if (JOY_readJoypad(JOY_1) & BUTTON_A) {
-                    waitMs(150); // Adicionado pequeno delay para evitar dupla detecção
+                    waitMs(150); 
                     gameState = GAME_STATE_MENU;
                     draw_menu();
                 }
