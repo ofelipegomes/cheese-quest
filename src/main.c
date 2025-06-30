@@ -39,33 +39,50 @@ ObjectsPool enemy_pool;
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME INIT
-
 void init_enemies() {
-	// init_enemy_lookup_table(level1_objects, LEN(level1_objects));
-	MAPOBJ_init_mapobjects(level1_objects, LEN(level1_objects));
-	OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
-
-	// load enemy tiles
-	// 'enemy_tiles_ind' agora é setado ANTES de chamar esta função, em game_init()
-	// E ENEMY_load_tiles deve retornar o número de tiles que consumiu.
-	next_vram_index += ENEMY_load_tiles(enemy_tiles_ind);
+    // Usar os objetos baseados no level atual
+    if (level == 1) {
+        MAPOBJ_init_mapobjects(level1_objects, LEN(level1_objects));
+    } else if (level == 2) {
+        MAPOBJ_init_mapobjects(level2_objects, LEN(level2_objects));
+    } else if (level == 3) {
+        MAPOBJ_init_mapobjects(level3_objects, LEN(level3_objects));
+    }
+    
+    OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
+    next_vram_index += ENEMY_load_tiles(enemy_tiles_ind);
 }
 
 void spawn_enemies() {
-	// spawn enemies in current room
-	u8 room = LEVEL_current_room();
+    // spawn enemies in current room
+    u8 room = LEVEL_current_room();
 
-	// Get Map Data Object from level_objects for the current room
-	MapObject* mapobj = MAPOBJ_loop_init(level1_objects, LEN(level1_objects), room);
-	while(mapobj) {
-		GameObject* enemy = OBJPOOL_get_available(&enemy_pool);
-		if (!enemy) return;
+    MapObject* mapobj = NULL;
+    
+    // Get Map Data Object from the correct level objects for the current room
+    if (level == 1) {
+        mapobj = MAPOBJ_loop_init(level1_objects, LEN(level1_objects), room);
+    } else if (level == 2) {
+        mapobj = MAPOBJ_loop_init(level2_objects, LEN(level2_objects), room);
+    } else if (level == 3) {
+        mapobj = MAPOBJ_loop_init(level3_objects, LEN(level3_objects), room);
+    }
+    
+    while(mapobj) {
+        GameObject* enemy = OBJPOOL_get_available(&enemy_pool);
+        if (!enemy) return;
 
-		// Enemy factory function: It gets the needed data from MapObject
-		ENEMY_init(enemy, mapobj, enemy_tiles_ind);
-		mapobj = MAPOBJ_loop_next(level1_objects, LEN(level1_objects), room);
-	}
-
+        ENEMY_init(enemy, mapobj, enemy_tiles_ind);
+        
+        // Get next object from the correct level
+        if (level == 1) {
+            mapobj = MAPOBJ_loop_next(level1_objects, LEN(level1_objects), room);
+        } else if (level == 2) {
+            mapobj = MAPOBJ_loop_next(level2_objects, LEN(level2_objects), room);
+        } else if (level == 3) {
+            mapobj = MAPOBJ_loop_next(level3_objects, LEN(level3_objects), room);
+        }
+    }
 }
 
 void clear_enemies() {
@@ -77,27 +94,22 @@ void game_init() {
     VDP_setScreenWidth320();
     SPR_init(); // Limpa e reinicia o sistema de sprites
 
+    // RESET DA CAMERA - MUITO IMPORTANTE!
+    LEVEL_reset_camera();
+
     // Reinicia o índice de tiles da VRAM para o início do espaço do usuário
     next_vram_index = TILE_USER_INDEX;
 
     // Inicializar sistemas na ordem correta, atualizando 'next_vram_index'
-    // Cada função de init deve carregar seus tiles e retornar o número de tiles consumidos
     next_vram_index += BACKGROUND_init(next_vram_index);
     next_vram_index += LEVEL_init(next_vram_index, level);
     
-    // PLAYER_init deve usar 'next_vram_index' para carregar seus tiles
-    // e esperamos que ele também retorne o número de tiles que consumiu.
-    // Se não retornar, você precisará saber o tamanho dos tiles do player e adicionar manualmente aqui.
     PLAYER_init(next_vram_index);
-    // Exemplo se PLAYER_init não retorna o offset:
-    // next_vram_index += PLAYER_TILE_COUNT; // Defina PLAYER_TILE_COUNT em algum lugar
 
     // Define o índice de início para os tiles dos inimigos
     enemy_tiles_ind = next_vram_index;
-    init_enemies(); // init_enemies agora incrementa next_vram_index internamente.
+    init_enemies();
     spawn_enemies();
-
-    //LEVEL_draw_collision_map(); 
 }
 
 	
@@ -141,7 +153,12 @@ static inline void game_update() {
     //BACKGROUND_update();
 
     #if MAP_SOLUTION == MAP_BY_COMPACT_MAP
-    LEVEL_update_camera(&player);
+    // Detectar mudança de room e respawnar inimigos
+    if (LEVEL_update_camera(&player)) {
+        // Room mudou! Limpar inimigos antigos e spawnar novos
+        clear_enemies();
+        spawn_enemies();
+    }
     #endif
 }
 
@@ -252,6 +269,8 @@ int main(bool resetType) {
 
                 if (value & BUTTON_A) {
                     waitMs(150);
+                    clear_enemies();
+                    spawn_enemies();
                     // Não é necessário SPR_reset() novamente, game_init() chama SPR_init()
                     game_init(); // Reinicia a fase atual
                     SYS_doVBlankProcess();
@@ -282,6 +301,7 @@ int main(bool resetType) {
             case GAME_STATE_RETRY:
                     SPR_reset(); // Limpa todos os sprites existentes
                     SYS_doVBlankProcess(); // Garante que as mudanças de VRAM sejam aplicadas
+
                     game_started = false; // Garante que game_init será chamado
                     VDP_drawImage(BG_B, &img_retry, 0, 0); // Carrega nova imagem de fundo
                     VDP_clearTextArea(0, 0, 40, 28);
@@ -291,6 +311,8 @@ int main(bool resetType) {
 
                     if (JOY_readJoypad(JOY_1) & BUTTON_A) {
                         waitMs(150);
+                        clear_enemies();
+                        spawn_enemies();
                         // Não é necessário SPR_reset() novamente, game_init() chama SPR_init()
                         game_init();
                         SYS_doVBlankProcess();

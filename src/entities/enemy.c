@@ -21,8 +21,9 @@ u16 ENEMY_load_tiles(u16 ind) {
 
 void ENEMY_init(GameObject* const obj, const MapObject* const mapobj, u16 ind) {
     // convert map coord to screen coord (and fix 1 tile offset y from Tiled)
-    f32 x = F32_toInt(mapobj->x) % SCREEN_W;
-    f32 y = F32_toInt(mapobj->y) % SCREEN_H - 16;
+    // Subtrair a posição da camera para obter coordenadas relativas à tela atual
+    f32 x = F32_toInt(mapobj->x) - LEVEL_get_screen_x();
+    f32 y = F32_toInt(mapobj->y) - LEVEL_get_screen_y() - 16;
 
     GAMEOBJECT_init(obj, &spr_ball, x, y, -4, -4, PAL_ENEMY, ind);
     obj->speed_x = F16_mul(  cosFix16(mapobj->direction * 128), mapobj->speed );

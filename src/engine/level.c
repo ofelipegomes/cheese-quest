@@ -39,13 +39,12 @@ static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y);
 u16 LEVEL_init(u16 ind, u8 level) {
     PAL_setPalette(PAL_MAP, level1_pal.data, DMA);
     VDP_loadTileSet(&level1_tiles, ind, DMA);
-
     if (level == 1) {
         map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
     } else if (level == 2) {
-        map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+        map = MAP_create(&level2_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
     } else if (level == 3) {
-        map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+        map = MAP_create(&level3_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
     }
 
     ind += level1_tiles.numTile;
@@ -231,10 +230,24 @@ void LEVEL_move_and_slide(GameObject* obj) {
     }
 }
 
+
+
 u8 LEVEL_current_room() {
-	return screen_y/SCREEN_H * ROOMS_PER_ROW + screen_x/SCREEN_W;
+    return screen_y/SCREEN_H * ROOMS_PER_ROW + screen_x/SCREEN_W;
 }
 
+u16 LEVEL_get_screen_x() {
+    return screen_x;
+}
+
+u16 LEVEL_get_screen_y() {
+    return screen_y;
+}
+
+void LEVEL_reset_camera() {
+    screen_x = 0;
+    screen_y = 0;
+}
 ///////////////////////////////////////////////////////////////////////////
 // PRIVATE MEMBERS
 
