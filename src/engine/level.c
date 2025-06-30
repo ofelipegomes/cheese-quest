@@ -36,6 +36,7 @@ static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y);
 ////////////////////////////////////////////////////////////////////////////
 // INIT
 
+// Na função LEVEL_init() - linha ~40
 u16 LEVEL_init(u16 ind, u8 level) {
     PAL_setPalette(PAL_MAP, level1_pal.data, DMA);
     VDP_loadTileSet(&level1_tiles, ind, DMA);
@@ -45,6 +46,10 @@ u16 LEVEL_init(u16 ind, u8 level) {
         map = MAP_create(&level2_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
     } else if (level == 3) {
         map = MAP_create(&level3_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+    } else if (level == 4) {
+        map = MAP_create(&level4_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+    } else if (level == 5) {
+        map = MAP_create(&level5_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
     }
 
     ind += level1_tiles.numTile;

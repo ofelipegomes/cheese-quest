@@ -83,7 +83,7 @@ void LEVEL_check_map_boundaries(GameObject* obj);
 
 u8 LEVEL_current_room();
 
-
+void LEVEL_reset_camera();
 u8 LEVEL_current_room();
 u16 LEVEL_get_screen_x();
 u16 LEVEL_get_screen_y();

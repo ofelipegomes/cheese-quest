@@ -15,7 +15,7 @@
 #include "engine/objects_pool.h"
 
 
-typedef enum { GAME_STATE_MENU, GAME_STATE_PLAY, GAME_STATE_CONTROLS, GAME_STATE_CREDITS, GAME_STATE_EXIT, GAME_STATE_LEVEL_CLEAR, GAME_STATE_RETRY } GameState;
+typedef enum { GAME_STATE_MENU, GAME_STATE_PLAY, GAME_STATE_CONTROLS, GAME_STATE_CREDITS, GAME_STATE_EXIT, GAME_STATE_LEVEL_CLEAR, GAME_STATE_RETRY, GAME_STATE_YOU_WIN} GameState;
 GameState gameState = GAME_STATE_MENU;
 
 extern bool pegou_queijo;
@@ -47,6 +47,10 @@ void init_enemies() {
         MAPOBJ_init_mapobjects(level2_objects, LEN(level2_objects));
     } else if (level == 3) {
         MAPOBJ_init_mapobjects(level3_objects, LEN(level3_objects));
+    } else if (level == 4) {
+        MAPOBJ_init_mapobjects(level4_objects, LEN(level4_objects));
+    } else if (level == 5) {
+        MAPOBJ_init_mapobjects(level5_objects, LEN(level5_objects));
     }
     
     OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
@@ -66,6 +70,10 @@ void spawn_enemies() {
         mapobj = MAPOBJ_loop_init(level2_objects, LEN(level2_objects), room);
     } else if (level == 3) {
         mapobj = MAPOBJ_loop_init(level3_objects, LEN(level3_objects), room);
+    } else if (level == 4) {
+        mapobj = MAPOBJ_loop_init(level4_objects, LEN(level4_objects), room);
+    } else if (level == 5) {
+        mapobj = MAPOBJ_loop_init(level5_objects, LEN(level5_objects), room);
     }
     
     while(mapobj) {
@@ -81,6 +89,10 @@ void spawn_enemies() {
             mapobj = MAPOBJ_loop_next(level2_objects, LEN(level2_objects), room);
         } else if (level == 3) {
             mapobj = MAPOBJ_loop_next(level3_objects, LEN(level3_objects), room);
+        } else if (level == 4) {
+            mapobj = MAPOBJ_loop_next(level4_objects, LEN(level4_objects), room);
+        } else if (level == 5) {
+            mapobj = MAPOBJ_loop_next(level5_objects, LEN(level5_objects), room);
         }
     }
 }
@@ -254,16 +266,27 @@ int main(bool resetType) {
                 SYS_hardReset();
                 break;
 
+            
             case GAME_STATE_LEVEL_CLEAR:
                 SPR_reset(); // Limpa todos os sprites existentes na tela
                 SYS_doVBlankProcess(); // Garante que as mudanças de VRAM sejam aplicadas
                 VDP_drawImage(BG_B, &img_level_clear, 0, 0); // Carrega nova imagem de fundo
                 VDP_clearTextArea(0, 0, 40, 28);
-                VDP_drawText("Fase Completa!", 14, 20);
-
-                VDP_drawText("A: Jogar novamente", 10, 22);
-                VDP_drawText("B: Proxima Fase", 10, 23);
-                VDP_drawText("Start: Menu", 14, 25);
+                
+                // Detectar se é a última fase (level 5)
+                if (level == 5) {
+                    // Última fase - mostrar opções diferentes
+                    VDP_drawText("ULTIMA FASE COMPLETA!", 9, 20);
+                    VDP_drawText("A: Jogar novamente", 10, 22);
+                    VDP_drawText("B: Tela de Vitoria", 10, 23);
+                    VDP_drawText("Start: Menu", 14, 25);
+                } else {
+                    // Fases normais - comportamento original
+                    VDP_drawText("Fase Completa!", 14, 20);
+                    VDP_drawText("A: Jogar novamente", 10, 22);
+                    VDP_drawText("B: Proxima Fase", 10, 23);
+                    VDP_drawText("Start: Menu", 14, 25);
+                }
 
                 u16 value = JOY_readJoypad(JOY_1);
 
@@ -271,7 +294,6 @@ int main(bool resetType) {
                     waitMs(150);
                     clear_enemies();
                     spawn_enemies();
-                    // Não é necessário SPR_reset() novamente, game_init() chama SPR_init()
                     game_init(); // Reinicia a fase atual
                     SYS_doVBlankProcess();
                     kprintf("Free RAM after Game Init: %d", MEM_getFree());
@@ -280,17 +302,54 @@ int main(bool resetType) {
                 }
                 else if (value & BUTTON_B) {
                     waitMs(150);
-                    level++;
-                    if (level > 3) level = 1; // volta para o primeiro se passar do último
-                    kprintf("Indo para o level: %d", level);
-                    // Não é necessário SPR_reset() novamente, game_init() chama SPR_init()
-                    game_init();
+                    
+                    if (level == 5) {
+                        // Se é a última fase, vai para YOU_WIN
+                        gameState = GAME_STATE_YOU_WIN;
+                    } else {
+                        // Senão, vai para o próximo level
+                        level++;
+                        kprintf("Indo para o level: %d", level);
+                        game_init();
+                        SYS_doVBlankProcess();
+                        kprintf("Free RAM after Game Init: %d", MEM_getFree());
+                        gameState = GAME_STATE_PLAY;
+                        game_started = true;
+                    }
+                }
+                else if (value & BUTTON_START) {
+                    waitMs(150);
+                    level = 1; // Reseta o level ao voltar para o menu
+                    gameState = GAME_STATE_MENU;
+                    draw_menu();
+                }
+                break;
+                
+            case GAME_STATE_YOU_WIN:
+                SPR_reset(); // Limpa todos os sprites existentes na tela
+                SYS_doVBlankProcess(); // Garante que as mudanças de VRAM sejam aplicadas
+                VDP_drawImage(BG_B, &img_youwin, 0, 0); // Carrega imagem de vitória
+                VDP_clearTextArea(0, 0, 40, 28);
+                VDP_drawText("PARABENS!", 16, 18);
+                VDP_drawText("Voce completou o jogo!", 9, 20);
+
+                VDP_drawText("A: Recomecar", 14, 23);
+                VDP_drawText("Start: Menu", 14, 25);
+
+                u16 value_win = JOY_readJoypad(JOY_1);
+
+                if (value_win & BUTTON_A) {
+                    waitMs(150);
+                    level = 1; // Recomeça do level 1
+                    clear_enemies();
+                    spawn_enemies();
+                    game_init(); // Reinicia o jogo do começo
                     SYS_doVBlankProcess();
                     kprintf("Free RAM after Game Init: %d", MEM_getFree());
                     gameState = GAME_STATE_PLAY;
                     game_started = true;
                 }
-                else if (value & BUTTON_START) {
+                else if (value_win & BUTTON_START) {
                     waitMs(150);
                     level = 1; // Reseta o level ao voltar para o menu
                     gameState = GAME_STATE_MENU;
